@@ -1,75 +1,46 @@
+<?php 
+  session_start(); 
+
+  if (!isset($_SESSION['username'])) {
+  	$_SESSION['msg'] = "You must log in first";
+  	header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+  	session_destroy();
+  	unset($_SESSION['username']);
+  	header("location: login.php");
+  }
+?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Registration Form</title>
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<form>
-	<table>
 
-		<tr>
-			<td>
-				Name:
-			</td>
-			<td>
-				<input type="text" placeholder="name" name="">
-			</td>
-		</tr>
+<div class="header">
+	<h2>Home Page</h2>
+</div>
+<div class="content">
+  	<!-- notification message -->
+  	<?php if (isset($_SESSION['success'])) : ?>
+      <div class="error success" >
+      	<h3>
+          <?php 
+          	echo $_SESSION['success']; 
+          	unset($_SESSION['success']);
+          ?>
+      	</h3>
+      </div>
+  	<?php endif ?>
 
-		<tr>
-			<td>
-				Password:
-			</td>
-			<td>
-				<input type="password" placeholder="Password" name="">
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				Gender:
-			</td>
-			<td>
-				<input type="radio" name="Gender" >Male
-				<input type="radio" name="Gender">Female
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				Email:
-			</td>
-			<td>
-				<input type="Email" placeholder="Email" name="">
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				Phone no:
-			</td>
-			<td>
-				<select>
-					<option>0917</option>
-					<option>0915</option>
-					<option>0920</option>
-				</select>
-				<input type="Phone" placeholder="********" name="">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="Submit" value="Submit" name="">
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				
-			</td>
-		</tr>
-
-	</table>
-</form>
+    <!-- logged in user information -->
+    <?php  if (isset($_SESSION['username'])) : ?>
+    	<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
+    	<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
+    <?php endif ?>
+</div>
+		
 </body>
 </html>
